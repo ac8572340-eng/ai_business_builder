@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Business Builder PRO</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #333;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+    animation: fadeIn 0.8s ease-in;
+}
+
+header h1 {
+    font-size: 56px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+}
+
+header p {
+    font-size: 20px;
+    opacity: 0.9;
+    margin-top: 10px;
+}
+
+.card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    border-radius: 25px;
+    padding: 40px;
+    margin: 20px auto;
+    max-width: 900px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+    animation: slideUp 0.8s ease-out;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.card h2 {
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 25px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 2px solid #7c3aed;
+    font-size: 16px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #0891b2;
+    box-shadow: 0 0 20px rgba(122, 58, 237, 0.4);
+}
+
+button {
+    padding: 16px 32px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    color: white;
+    width: 100%;
+    font-size: 18px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(122, 58, 237, 0.5);
+}
+
+.btn-secondary {
+    background: #f0f0f0;
+    color: #333;
+    border: 2px solid #7c3aed;
+}
+
+.btn-secondary:hover {
+    background: #7c3aed;
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #00d084 0%, #00a046 100%);
+    color: white;
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0, 208, 132, 0.5);
+}
+
+.btn-option {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    color: #333;
+    border: 2px solid #7c3aed;
+    padding: 12px 20px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+.btn-option:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    color: white;
+}
+
+.btn-next {
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    color: white;
+    width: 100%;
+    font-size: 18px;
+}
+
+#result {
+    display: none;
+}
+
+#output {
+    background: linear-gradient(135deg, #f0f4f8 0%, #f8f9ff 100%);
+    padding: 25px;
+    border-radius: 15px;
+    overflow-y: auto;
+    max-height: 600px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #1a1a2e;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border-left: 4px solid #7c3aed;
+}
+
+.step-guide {
+    display: none;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    border-radius: 25px;
+    padding: 40px;
+    margin: 20px auto;
+    max-width: 1000px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.step-guide h2 {
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 25px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.step-number {
+    display: inline-block;
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    line-height: 60px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(122, 58, 237, 0.3);
+}
+
+.step-content {
+    margin: 25px 0;
+    font-size: 17px;
+    line-height: 1.9;
+    color: #333;
+}
+
+.section {
+    background: #f8f9ff;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 15px 0;
+    border-left: 4px solid #7c3aed;
+}
+
+.section-title {
+    color: #7c3aed;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.step-content ul {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.step-content li {
+    margin: 10px 0;
+}
+
+.step-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.progress-bar {
+    background: #e0e0e0;
+    height: 8px;
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.image-generator {
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f4f8 100%);
+    padding: 25px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 2px dashed #7c3aed;
+}
+
+.image-generator h3 {
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.image-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.image-option {
+    padding: 20px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.image-option:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 10px 30px rgba(122, 58, 237, 0.3);
+    transform: translateY(-5px);
+}
+
+.image-option a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.completion-message {
+    background: linear-gradient(135deg, #00d084 0%, #00a046 100%);
+    color: white;
+    padding: 50px 40px;
+    border-radius: 25px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 900px;
+    box-shadow: 0 25px 80px rgba(0, 208, 132, 0.4);
+}
+
+.completion-message h2 {
+    color: white;
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.completion-message p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+a {
+    color: #7c3aed;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+</style>
+
+</head>
+
+<body>
+<div class="container">
+    <header>
+        <h1>🚀 AI Business Builder PRO</h1>
+        <p>Turn your idea into a fully automated, scalable enterprise in 90 days</p>
+    </header>
+
+    <!-- Initial Plan Generator -->
+    <div class="card" id="initialCard">
+        <h2>📋 Enter Your Business Idea</h2>
+        <form id="businessForm">
+            <input type="text" id="businessGoal" placeholder="e.g., AI-powered coaching platform, eco-friendly e-commerce store..." required>
+            <button type="button" class="btn-primary" onclick="generatePlan()">📊 Generate Full Business Plan</button>
+        </form>
+    </div>
+
+    <!-- Business Plan Result -->
+    <div class="card" id="result" style="display:none;">
+        <h2>📊 Your Complete Business Plan</h2>
+        <pre id="output"></pre>
+        <br>
+        <button type="button" class="btn-success" onclick="startStepGuide()">✨ Let's Begin! (Step-by-Step Guide)</button>
+    </div>
+
+    <!-- Step-by-Step Guide -->
+    <div class="step-guide" id="stepGuide">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        
+        <div class="step-number" id="stepNumber">1</div>
+        <h2 id="stepTitle">Step 1: Foundation</h2>
+        <div class="step-content" id="stepContent"></div>
+
+        <!-- Choices for marking progress -->
+        <div id="choicesContainer"></div>
+
+        <!-- Image/Logo Generator for specific steps -->
+        <div class="image-generator" id="imageGenerator" style="display:none;">
+            <h3>🎨 Generate Logo & Images</h3>
+            <div class="image-options">
+                <div class="image-option">
+                    <p>Quick Logo Maker</p>
+                    <a href="https://www.logomaker.com/" target="_blank">→ Create Logo</a>
+                </div>
+                <div class="image-option">
+                    <p>AI Image Generator</p>
+                    <a href="https://www.midjourney.com/" target="_blank">→ Midjourney</a>
+                </div>
+                <div class="image-option">
+                    <p>Design Template</p>
+                    <a href="https://www.canva.com/" target="_blank">→ Canva Pro</a>
+                </div>
+                <div class="image-option">
+                    <p>Free AI Images</p>
+                    <a href="https://www.leonardo.ai/" target="_blank">→ Leonardo.ai</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-actions">
+            <button type="button" class="btn-secondary" onclick="previousStep()">← Back</button>
+            <button type="button" class="btn-next" onclick="nextStep()" id="nextButton">Next Step →</button>
+        </div>
+    </div>
+
+    <!-- Completion Message -->
+    <div class="completion-message" id="completionMessage" style="display:none;">
+        <h2>🎉 Congratulations!</h2>
+        <p>You've completed the 90-day roadmap! Your business is now on the path to success.</p>
+        <p>Remember: Consistency & execution are key. Start small, scale fast!</p>
+        <button type="button" class="btn-secondary" onclick="location.reload()">Start Over</button>
+    </div>
+</div>
+
+<script>
+let currentStep = 0;
+let businessGoal = '';
+
+const steps = [
+    {
+        title: "Step 1: Register Your Business",
+        why: "Why This Matters:\n• Legal protection for your personal assets\n• Tax deductions become available\n• Customers trust registered businesses more\n• Banking becomes easier (separate business account)\n• Foundation for scaling (investors want this)",
+        how: `How to Do It (Step-by-Step):\n\n1. CHOOSE YOUR BUSINESS STRUCTURE\n   • Sole Proprietorship: Simplest, cheapest ($0-50), full legal responsibility\n   • LLC: Most popular indie choice ($100-500), liability protection\n   • Corporation: Best for large teams ($500+), most complex\n   \n   RECOMMENDATION: If starting solo → LLC. If bootstrapping → Sole Proprietorship.\n\n2. CHOOSE & CHECK YOUR BUSINESS NAME\n   → Visit: https://namechk.com\n   → Check domain available: https://domains.google\n   → Check trademark: https://tmsearch.uspto.gov\n   → Make list of 10 backup names in case #1 is taken\n\n3. REGISTER YOUR BUSINESS\n   WHERE TO DO IT:\n   • If USA: https://apps.sos.state.[STATE].us (go to SOS website)\n   • If Canada: https://www.canada.ca/en/services/business/start.html\n   • If UK: https://www.gov.uk/register-business-as-sole-trader\n   \n   WHAT YOU'LL NEED:\n   • Your personal ID\n   • Proposed business name\n   • Business address\n   • EIN (Employer Identification Number - free from IRS)\n   \n   TIME: 1-2 hours online, 1-2 weeks for approval\n\n4. GET EIN FROM IRS (FREE)\n   → Visit: https://www.irs.gov/ein\n   → Apply online (instant approval)\n   → You'll get number immediately\n   • This is your business's Social Security number\n   • Needed for banking, contracts, employees\n\n5. OPEN BUSINESS BANK ACCOUNT\n   BANKS THAT WORK:\n   • Chase Business Checking\n   • Square Cash (easiest for startups)\n   • Bank of America Business\n   • Local credit union (often cheaper)\n   \n   WHAT TO BRING:\n   • LLC formation documents (or sole proprietor ID)\n   • EIN letter\n   • Personal ID\n   • Initial deposit ($300-1000 typical)\n\n6. GET BUSINESS INSURANCE (OPTIONAL BUT RECOMMENDED)\n   → https://www.thehartford.com/ (small business)\n   → https://www.geico.com/business/ (basic coverage)\n   • General liability: $300-500/year\n   • Covers lawsuits, accidents`,
+        where: `Where to Get This Done:\n• Online: Secretary of State website\n• Online: IRS website\n• In-person: Local bank\n• Time-saving hack: Use LawZilla.com or Incfile.com (they do it for you, cost: $100-300)`,
+        choices: [
+            { label: "✓ I chose Sole Proprietorship (fast & cheap)", action: "selectedChoice1_1" },
+            { label: "✓ I chose LLC (recommended)", action: "selectedChoice1_2" },
+            { label: "✓ I got my EIN & opened bank account", action: "selectedChoice1_3" }
+        ],
+        showImageGenerator: false
+    },
+    {
+        title: "Step 2: Create Your Brand Identity",
+        why: `Why This Matters:\n• First impression (people buy based on branding)\n• Builds trust with customers\n• Makes you memorable (vs competitors)\n• Consistency across all platforms\n• High-ticket products NEED strong branding\n\nSTATISTIC: 72% customer impact from visual branding`,
+        how: `How to Build Your Brand (Deep Dive):\n\n1. CHOOSE YOUR BRAND COLORS (Psychology Matters!)\n   COLOR MEANINGS:\n   • Blue: Trust, professionalism (finance, tech)\n   • Green: Growth, health, eco-friendly\n   • Red: Energy, urgency, action\n   • Purple: Luxury, creativity\n   • Orange: Fun, approachable, energy\n   • Black: Luxury, premium, serious\n   \n   CHOOSE 2-3 COLORS MAX:\n   Primary color: Main brand color\n   Secondary: Complementary \n   Accent: Call-to-action buttons\n   \n   TOOL: https://www.color-hex.com/ (find perfect shades)\n\n2. DESIGN YOUR LOGO\n   WHERE TO START (By Budget):\n   • FREE: logo.ai or Logojoy.com\n   • CHEAP ($50-200): Fiverr.com or 99designs.com\n   • PROFESSIONAL ($500+): Hire designer on Dribbble.com\n   \n   WHAT MAKES A GOOD LOGO:\n   ✓ Simple (can be recognized at small size)\n   ✓ Memorable (people remember it)\n   ✓ Timeless (stays relevant in 5+ years)\n   ✓ Versatile (works on FB, Instagram, favicon)\n   ✓ Not trendy (avoid 2024 fad designs)\n   \n   STEPS:\n   1. Go to Canva.com\n   2. Click "Logo Design"\n   3. Type your business name\n   4. Browse 1000+ templates\n   5. Pick closest match, customize colors\n   6. Download in HD format\n   TIME: 1-2 hours\n\n3. CHOOSE YOUR FONTS\n   GOOD FONT COMBOS:\n   • Header font: Bold, eye-catching\n   • Body font: Easy to read, professional\n   \n   WHERE: Google Fonts (free) - https://fonts.google.com\n   \n   RECOMMENDED COMBOS:\n   • Futura + Lato (modern)\n   • Playfair Display + Raleway (luxury)\n   • Jost + IBM Plex (tech)\n   • Poppins + Open Sans (approachable)\n\n4. CREATE BRAND COLORS PALETTE\n   TOOL: https://coolors.co/\n   1. Pick primary color\n   2. Let AI generate complementary colors\n   3. Export as PDF\n   4. This becomes your "Brand Bible"\n\n5. DESIGN EMAIL HEADER\n   TOOL: Canva.com → Email template\n   • Logo in top left\n   • Your colors\n   • Font matching brand\n   • Include: Phone, website, social handles\n   TIME: 30 mins\n\n6. DESIGN SOCIAL MEDIA COVER PHOTOS\n   DIMENSIONS:\n   • Facebook: 820 x 312 pixels\n   • LinkedIn: 1200 x 627 pixels\n   • Twitter: 1500 x 500 pixels\n   • Instagram: 1080 x 1080 pixels\n   \n   TEMPLATE: Use Canva (everything pre-sized)\n   TIME: 2-3 hours for all platforms`,
+        where: `WHERE TO CREATE:\n• Canva.com - Best all-in-one (start here)\n• Figma.com - Advanced (more control)\n• Adobe Express - Professional\n• Fiverr.com - Hire someone ($50+)\n\nWHERE TO STORE:\n• Google Drive folder: "Brand Assets"\n• Include: Logo (5 versions), colors, fonts, templates`,
+        choices: [
+            { label: "✓ Designed my logo on Canva", action: "selectedChoice2_1" },
+            { label: "✓ Hired designer from Fiverr", action: "selectedChoice2_2" },
+            { label: "✓ Created brand color palette", action: "selectedChoice2_3" }
+        ],
+        showImageGenerator: true
+    },
+    {
+        title: "Step 3: Set Up Social Media Accounts",
+        why: `Why This Matters:\n• Social = Customer Direct Access (no algorithm gatekeeping on your own site)\n• Pre-qualified audience (people search #haircare before finding your store)\n• Engagement builds community (word-of-mouth growth)\n• Algorithmic reach (with consistency, 1 viral post = 10k new people)\n• Easy to test content (see what resonates)\n\nSTAT: 73% of people research brands on social before buying`,
+        how: `How to Set Up (Platform by Platform):\n\n1. INSTAGRAM (Best for Visual Businesses)\n   WHY: 2 billion users, visual-first, built-in shopping\n   \n   SETUP STEPS:\n   1. Go to Instagram.com\n   2. Sign up with email/@username\n   3. Switch to Business Account (Settings → Account Type)\n   4. Add profile picture (your logo)\n   5. Write compelling bio (50 chars):\n      BAD: "Designer and entrepreneur"\n      GOOD: "Helping solopreneurs build 6-figure businesses 📈"\n   6. Add link to website or landing page\n   7. Enable all features:\n      • Reels (short videos)\n      • Stories (temp posts)\n      • Shopping (sell directly)\n      • Scheduling (plan posts)\n   \n   FIRST STEPS:\n   • Follow 50 competitors (learn what they do)\n   • Follow 50 accounts in your audience (understand them)\n   • Create 9 carousel posts (grid looks professional)\n\n2. TIKTOK (Best for Going Viral)\n   WHY: 1.5 billion users, youngest demographic, algorithmic (not follower-based)\n   \n   SETUP:\n   1. Go to TikTok.com\n   2. Sign up\n   3. Switch to Pro Account (Settings → Manage Account)\n   4. Profile picture (logo)\n   5. Bio: "Business tagline here 🚀"\n   6. Add website link\n   \n   KEY DIFFERENCE:\n   • Instagram = follower-based (you need 10k followers to go "viral")\n   • TikTok = algorithmic (1st video can reach 100k people!)\n   \n   HOW TO GO VIRAL:\n   • Hook in first 2 seconds (or they scroll)\n   • Use trending sounds (FYP algorithm LOVES this)\n   • Post daily (consistency signals)\n   • Post when audience is awake\n\n3. LINKEDIN (Best for B2B)\n   WHY: 900M professionals, higher-intent buyers, less saturated\n   \n   SETUP:\n   1. Create company page (separate from personal)\n   2. Complete all fields\n   3. Add 50+ word company description\n   4. Logo, banner, website\n   5. Activate "Hiring" feature\n   \n   CONTENT:\n   • Industry insights\n   • Behind-the-scenes\n   • Employee spotlights\n   • Case studies\n   • Thought leadership\n\n4. TWITTER/X (Best for Community)\n   WHY: Fast conversations, real-time events, tech crowd\n   \n   SETUP:\n   1. Create account with unique handle\n   2. Bio: Your value proposition in 160 chars\n   3. Profile: Logo or headshot\n   4. Banner: Your colors/brand\n   5. Link to main website\n   \n   STRATEGY:\n   • Reply to trending topics in your niche\n   • Share insights (not just promotion)\n   • Engage with top voices in your space\n   • Thread format gets engagement\n\n5. YOUTUBE (Best for Authority)\n   WHY: 2.5 billion users, longest watch time = best algorithm boost\n   \n   SETUP:\n   1. Create account (use your business name)\n   2. Custom banner (2560 x 1440px from Canva)\n   3. Channel description (clear value prop)\n   4. Links to website/products\n   5. Create channel art\n   \n   START WITH:\n   • 5-10 minute videos (easiest to plan & edit)\n   • Screen recordings + voiceover\n   • Interviews with customers\n   • Behind-the-scenes\n\n6. EMAIL LIST (Most Important!)\n   WHY: You DON'T own social accounts, you own email list\n   \n   WHERE: ConvertKit.com (best for creators)\n   \n   SETUP:\n   1. Create account\n   2. Design welcome email\n   3. Create landing page\n   4. Add signup form to website\n   5. Create opt-in incentive (free guide, template, checklist)\n   \n   COLLECTION STRATEGY:\n   • Website: Pop-up form ("Join 5,000+ subscribers")\n   • Social bio: Link to landing page\n   • First email: Value + show personality\n   • Follow-up emails: Build relationship`,
+        where: `WHERE TO POST:\nBy Audience:\n• B2C visual: Instagram, TikTok, Pinterest\n• B2C services: YouTube, Instagram\n• B2B: LinkedIn, Twitter\n• Community: Discord, Telegram, Facebook Group\n• Direct: Email (your asset!)`,
+        choices: [
+            { label: "✓ Set up Instagram Business account", action: "selectedChoice3_1" },
+            { label: "✓ Created TikTok account", action: "selectedChoice3_2" },
+            { label: "✓ Joined LinkedIn & YouTube", action: "selectedChoice3_3" }
+        ],
+        showImageGenerator: false
+    },
+    {
+        title: "Step 4: Build Your Website/Landing Page",
+        why: `Why This Matters:\n• Trust marker (social proof + professionalism)\n• Own your platform (not dependent on algorithm)\n• 24/7 salesperson (makes money while you sleep)\n• Capture emails (funnel for remarketing)\n• SEO foundation (organic traffic over time)\n\nSTAT: 81% of people research online before buying`,
+        how: `How to Build It:\n\n1. CHOOSE YOUR PLATFORM (Quick Breakdown)\n   \n   WADADDA?\n   • Cost: FREE\n   • Best for: Portfolio, blog\n   • Limitation: Can't sell\n   \n   WIX (Recommended for beginner)\n   • Cost: $15-50/month\n   • Time to launch: 1-2 hours\n   • Benefit: Drag-drop, easy email collection\n   • Best for: Service businesses, portfolios\n   → https://www.wix.com\n   \n   SQUARESPACE\n   • Cost: $17-40/month\n   • Design: Most beautiful templates\n   • Best for: Ecommerce, creators\n   → https://www.squarespace.com\n   \n   WEBFLOW\n   • Cost: $16-35/month\n   • Complexity: Steeper learning curve\n   • Best for: Developers, custom needs\n   → https://webflow.com\n   \n   SHOPIFY (If selling products)\n   • Cost: $29-299/month\n   • Inventory: Built-in shop management\n   • Best for: Ecommerce\n   → https://www.shopify.com\n   \n   RECOMMENDATION: Wix for first-timer. Easiest. Best results in 2 hours.\n\n2. STEP-BY-STEP BUILD (Using Wix)\n   \n   A. PICK A TEMPLATE\n   1. Go to Wix.com\n   2. Choose template (click "Business" or "Services")\n   3. Pick something that visually resonates\n   4. Click "Get Started"\n   \n   B. ADD YOUR CONTENT\n   Page structure (standard for conversion):\n   \n   HOME PAGE:\n   Section 1: Hero (headline + CTA button)\n      FORMULA: "[Action] to [Benefit] in [Timeframe]"\n      EXAMPLE: "Launch Your 6-Figure Business in 90 Days"\n      \n   Section 2: Problem (what are they searching for?)\n      "Struggling to turn your idea into revenue?"\n      \n   Section 3: Solution (your offer)\n      "Our step-by-step system works by..."\n      \n   Section 4: Social Proof (testimonials, numbers)\n      "500+ businesses launched"\n      "4.9/5 star rating (250+ reviews)"\n      \n   Section 5: Your Story (why you?)\n      "In 2020, I went from broke to building..."\n      \n   Section 6: Clear Call-to-Action\n      Button: "Start Free Trial" or "Book Call"\n   \n   PAGES TO CREATE:\n   1. HOME - Conversion focused\n   2. ABOUT - Your story & credibility\n   3. SERVICES/PRODUCTS - What you sell + pricing\n   4. BLOG (later) - SEO goldmine\n   5. CONTACT - Email signup + calendar\n   6. FAQ - Answer objections\n   \n   C. CRAFTING YOUR HEADLINE\n   \n   WEAK: "Welcome to my business"\n   STRONG: "Turn Your Side Hustle into $10k/month in 90 Days"\n   \n   FORMULA: [Result] + [Timeframe] + [Specificity]\n   \n   D. EMAIL CAPTURE FORM\n   MOST IMPORTANT ELEMENT!\n   \n   Where: Homepage popup + bottom of every page\n   \n   Form copy:\n      "Join 5,000+ entrepreneurs getting daily tips"\n      [Email input]\n      [Sign up button]\n   \n   Incentive: "Sign up for free 30-day roadmap"\n   \n   E. OPTIMIZE FOR MOBILE\n   • 70% of traffic is mobile\n   • Must look perfect on phone\n   • Test: Open on iPhone before publishing\n\n3. DOMAIN & HOSTING\n   \n   YOUR DOMAIN OPTIONS:\n   • YourBusiness.com (first choice)\n   • YourBusiness.co (trendy)\n   • YourBusiness.io (tech)\n   • GetYourBusiness.com (if .com taken)\n   \n   WHERE TO BUY:\n   • Godaddy.com ($12/year)\n   • Namecheap.com ($9/year)\n   • Google Domains ($12/year) - RECOMMENDED\n   \n   HOSTING:\n   • Included in Wix/Squarespace plan\n   • No separate hosting needed\n\n4. SEO Basics (Traffic magnet)\n   \n   ON-PAGE:\n   • Home page title includes keyword: "[Keyword] - [Brand Name]"\n   • Meta description (160 chars): summarize page\n   • Image alt-text: describe every image\n   • Headings: Use H1, H2, H3 structure\n   \n   BLOGGING:\n   • 1 blog post/week on topics your audience searches\n   • 1,500+ words per post\n   • Link to your services in blog\n   • This = organic traffic over time\n   \n   KEYWORD RESEARCH:\n   Tool: https://answertthepublic.com (FREE)\n   1. Enter your business keyword\n   2. See what people search for\n   3. Write blog posts answering those questions`,
+        where: `WHERE TO HOSTWEBSITE:\n• Wix.com (easiest)\n• Squarespace.com (prettiest)\n• Shopify.com (for selling products)\n• Domain: Google Domains or Godaddy.com\n\nWHAT NOT TO DO:\n✗ Don't use Wix free plan (has ads)\n✗ Don't use overly trendy designs (looks dated fast)\n✗ Don't overcomplicate (simple wins)`,
+        choices: [
+            { label: "✓ Built website on Wix", action: "selectedChoice4_1" },
+            { label: "✓ Chose Squarespace", action: "selectedChoice4_2" },
+            { label: "✓ Registered custom domain", action: "selectedChoice4_3" }
+        ],
+        showImageGenerator: false
+    }
+];
+
+function generatePlan() {
+    businessGoal = document.getElementById('businessGoal').value;
+    if (!businessGoal) return;
+    
+    fetch('http://127.0.0.1:5000/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ goal: businessGoal })
+    })
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('initialCard').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+        
+        if (data.data && data.data.message) {
+            document.getElementById('output').textContent = data.data.message;
+        } else if (data.data && data.data.content) {
+            document.getElementById('output').textContent = data.data.content;
+        } else {
+            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+        }
+    })
+    .catch(error => {
+        document.getElementById('initialCard').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('output').textContent = `Error: ${error.message}`;
+    });
+}
+
+function startStepGuide() {
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('stepGuide').style.display = 'block';
+    currentStep = 0;
+    showStep();
+}
+
+function showStep() {
+    const step = steps[currentStep];
+    document.getElementById('stepNumber').textContent = currentStep + 1;
+    document.getElementById('stepTitle').textContent = step.title;
+    
+    let content = '';
+    
+    if (step.why) {
+        content += `<div class="section"><div class="section-title">🎯 WHY THIS MATTERS</div>${step.why}</div>`;
+    }
+    
+    if (step.how) {
+        content += `<div class="section"><div class="section-title">📌 HOW TO DO IT (Step-by-Step)</div>${step.how}</div>`;
+    }
+    
+    if (step.where) {
+        content += `<div class="section"><div class="section-title">📍 WHERE TO GET THIS DONE</div>${step.where}</div>`;
+    }
+    
+    document.getElementById('stepContent').innerHTML = content.replace(/\n/g, '<br>');
+    
+    // Show image generator if needed
+    document.getElementById('imageGenerator').style.display = step.showImageGenerator ? 'block' : 'none';
+    
+    // Update progress bar
+    document.getElementById('progressFill').style.width = ((currentStep + 1) / steps.length * 100) + '%';
+    
+    // Update button text
+    document.getElementById('nextButton').textContent = 
+        currentStep === steps.length - 1 ? '✨ Complete!' : 'Next Step →';
+    
+    // Display choice buttons if available
+    const choicesContainer = document.getElementById('choicesContainer');
+    if (step.choices) {
+        choicesContainer.innerHTML = '<div class="section"><div class="section-title">✓ Mark Your Progress</div>';
+        step.choices.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-option';
+            btn.textContent = choice.label;
+            btn.onclick = () => markChoice(choice.action);
+            choicesContainer.appendChild(btn);
+        });
+        choicesContainer.innerHTML += '</div>';
+    } else {
+        choicesContainer.innerHTML = '';
+    }
+}
+
+function nextStep() {
+    if (currentStep < steps.length - 1) {
+        currentStep++;
+        showStep();
+    } else {
+        document.getElementById('stepGuide').style.display = 'none';
+        document.getElementById('completionMessage').style.display = 'block';
+    }
+}
+
+function previousStep() {
+    if (currentStep > 0) {
+        currentStep--;
+        showStep();
+    }
+}
+
+function markChoice(action) {
+    alert('✓ Great! You completed this task. Click Next Step to continue!');
+}
+</script>
+
+</body>
+</html>
